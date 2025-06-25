@@ -9,7 +9,7 @@ import { AnimatedText } from "@/ui/motion/animatedText";
 export const Opportunities = () => {
   const isMobile = useMediaQuery("(max-width: 1175px)");
   return (
-    <div className="mb-16 flex flex-col items-center justify-center relative h-[100vh]">
+    <div className="my-16 flex flex-col items-center justify-center relative">
       <SectionBadge
         text="New opportunities"
         Icon={HiOutlineChartSquareBar}
