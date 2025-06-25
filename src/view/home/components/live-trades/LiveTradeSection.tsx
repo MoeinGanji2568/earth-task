@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import space from "public/space.jpg";
 import { useEffect, useRef } from "react";
 import CountUp from "react-countup";
-import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
+import TradeStatisticsList from "./_components/TradeStatisticsList";
 
 export const LiveTradeSection = () => {
   const scrollAreaRef = useRef<HTMLDivElement | null>(null);
@@ -36,21 +36,6 @@ export const LiveTradeSection = () => {
   useEffect(() => {
     handleScroll();
   }, [setSectionPosition]);
-
-  const tradesStatisticsCard = [
-    {
-      label: "Long Trades",
-      icon: <FaArrowTrendUp size={15} />,
-      number: "1,234,876",
-      ascending: true,
-    },
-    {
-      label: "Short Trades",
-      icon: <FaArrowTrendDown size={15} />,
-      number: "1,234,876",
-      ascending: false,
-    },
-  ];
 
   const { scrollYProgress: scrollAreaProgress } = useScroll({
     offset: ["start start", "end 10%"],
@@ -97,21 +82,7 @@ export const LiveTradeSection = () => {
             <CountUp end={3267634} duration={3.5} />
           </motion.span>
         </div>
-        <div className="flex items-center gap-4 font-bold text-lg">
-          {tradesStatisticsCard.map((item, index) => (
-            <div key={index} className="p-4 rounded-lg bg-[#12131C]">
-              <div
-                className={`flex items-center gap-2 ${
-                  item.ascending ? "text-[#0FB395]" : "text-[#E63766]"
-                } py-1 whitespace-nowrap`}
-              >
-                <span className="text-xs md:text-base">{item.label}</span>
-                {item.icon}
-              </div>
-              <span className="text-lg lg:text-2xl mt-2">{item.number}</span>
-            </div>
-          ))}
-        </div>
+        <TradeStatisticsList />
       </div>
     </motion.div>
   );
