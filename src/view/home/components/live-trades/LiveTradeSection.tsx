@@ -3,7 +3,7 @@ import { useSectionStore } from "@/store/useSectionStore";
 import { Typography } from "@/ui/Typography";
 import { motion, useScroll, useTransform } from "motion/react";
 import space from "public/space.jpg";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import CountUp from "react-countup";
 import TradeStatisticsList from "./_components/TradeStatisticsList";
 
@@ -18,7 +18,7 @@ export const LiveTradeSection = () => {
     state.getSectionById("trusted-section")
   );
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (scrollAreaRef.current) {
       const INITIAL_TOP = 250;
       const rect = scrollAreaRef.current.getBoundingClientRect();
@@ -31,15 +31,15 @@ export const LiveTradeSection = () => {
         bottom,
       });
     }
-  };
+  }, [setSectionPosition]);
 
   useEffect(() => {
     handleScroll();
-  }, [setSectionPosition]);
+  }, [handleScroll]);
 
   const { scrollYProgress: scrollAreaProgress } = useScroll({
     offset: ["start start", "end 10%"],
-    target: trustedSectionRef?.ref,
+    target: trustedSectionRef?.ref || undefined,
   });
 
   const LiveTradeSectionTranslateY = useTransform(

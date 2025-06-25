@@ -19,10 +19,8 @@ const TradeDynamicList = ({
   onItemClick?: (item: MarketItem) => void;
 }) => {
   const UPDATE_INTERVAL = 5500;
-  const LOADING_DELAY = 2000;
   const DISPLAYED_ITEM_COUNT = 3;
 
-  const [isLoading, setIsLoading] = useState(true);
   const [items, setItems] = useState<MarketItem[]>([]);
 
   const initialItems = useMemo(() => generateMockMarketItems(5), []);
@@ -30,7 +28,6 @@ const TradeDynamicList = ({
   useEffect(() => {
     setItems(initialItems);
 
-    const loadingTimer = setTimeout(() => setIsLoading(false), LOADING_DELAY);
     const updateInterval = setInterval(() => {
       const isRandom = true;
       const updatedItems = generateMockMarketItems(1, isRandom).sort(
@@ -40,7 +37,6 @@ const TradeDynamicList = ({
     }, UPDATE_INTERVAL);
 
     return () => {
-      clearTimeout(loadingTimer);
       clearInterval(updateInterval);
     };
   }, [initialItems]);

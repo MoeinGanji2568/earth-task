@@ -1,11 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useSectionStore } from "@/store/useSectionStore";
 import { AnimatedText } from "@/ui/motion/animatedText";
 import { SectionBadge } from "@/ui/SectionBadge";
 import { Typography } from "@/ui/Typography";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { LiaKissWinkHeartSolid } from "react-icons/lia";
 import { useMediaQuery } from "usehooks-ts";
 import TrustCommentsSection from "./_components/TrustCommentsSection";
@@ -40,7 +39,7 @@ export const TrustedSection = () => {
     (state) => state.setSectionPosition
   );
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (scrollAreaRef.current) {
       const rect = scrollAreaRef.current.getBoundingClientRect();
       const top = rect.top + window.scrollY;
@@ -53,11 +52,11 @@ export const TrustedSection = () => {
         ref: scrollAreaRef,
       });
     }
-  };
+  }, [setSectionPosition]);
 
   useEffect(() => {
     handleScroll();
-  }, [setSectionPosition]);
+  }, [handleScroll]);
 
   return (
     <motion.div className="relative p-3" ref={scrollAreaRef}>

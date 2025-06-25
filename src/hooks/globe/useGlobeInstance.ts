@@ -31,6 +31,8 @@ export function useGlobeInstance({
     let phi = phiRef.current;
     const theta = thetaRef.current;
     let width = canvasRef.current.offsetWidth;
+    const currentAnimationRef = animationRef.current;
+
     const onResize = () => {
       if (canvasRef.current) {
         width = canvasRef.current.offsetWidth;
@@ -51,7 +53,7 @@ export function useGlobeInstance({
       mapBrightness: 3.5,
       markerColor: [251 / 255, 100 / 255, 21 / 255],
       markers,
-      onRender: (state: Record<string, any>) => {
+      onRender: (state: Record<string, unknown>) => {
         if (!pointerInteracting.current) phi += 0.005;
         state.phi = phi + r.get();
         state.theta = theta;
@@ -70,7 +72,7 @@ export function useGlobeInstance({
       clearTimeout(fadeInTimer);
       globe.destroy();
       window.removeEventListener("resize", onResize);
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (currentAnimationRef) cancelAnimationFrame(currentAnimationRef);
     };
   }, [canvasRef, markers, r, pointerInteracting]);
 

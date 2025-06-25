@@ -91,7 +91,9 @@ export function Slideshow({
             {children.map((child, index) => (
               <div
                 key={index}
-                ref={(el) => (slideRefs.current[index] = el)}
+                ref={(el) => {
+                  slideRefs.current[index] = el;
+                }}
                 className="flex-shrink-0"
                 style={{ width: "fit-content", height: "fit-content" }}
               >

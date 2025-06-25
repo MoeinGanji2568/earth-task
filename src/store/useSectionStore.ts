@@ -1,11 +1,11 @@
-import { Ref } from "react";
+import { RefObject } from "react";
 import { create } from "zustand";
 
 interface SectionPosition {
   id: string;
   top: number;
   bottom: number;
-  ref?: Ref<HTMLDivElement> | undefined;
+  ref?: RefObject<HTMLDivElement | null> | undefined;
 }
 
 interface SectionStore {

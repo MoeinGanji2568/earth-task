@@ -1,4 +1,4 @@
-// import { font } from "@/assets/font/font";
+import { font } from "@/assets/font/font";
 import type { Metadata } from "next";
 import "../styles/globals.css";
 
@@ -14,9 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${font.variable} font-roboto`}>{children}</body>
     </html>
   );
 }
-
-// className={`${font.variable} font-roboto`}

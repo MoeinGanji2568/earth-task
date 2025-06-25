@@ -2,6 +2,7 @@ import { TrustedJson } from "@/core/constants/TrustedJson";
 import { BsChatHeartFill } from "react-icons/bs";
 import { FaQuoteRight } from "react-icons/fa";
 import { IntervalSlider } from "@/ui/motion/intervalSlider";
+import Image from "next/image";
 
 const TrustCommentSlider = () => {
   return (
@@ -26,9 +27,11 @@ const TrustCommentSlider = () => {
               <span className="text-white text-[10px] lg:text-base">
                 {item.authorName}
               </span>
-              <img
+              <Image
                 src={item.authorImg}
                 alt={item.authorName}
+                width={28}
+                height={28}
                 className="size-4 lg:size-7 rounded-full border border-white/20"
               />
             </div>
@@ -54,9 +57,11 @@ const TrustCommentSlider = () => {
               <span className="text-white text-[10px] lg:text-base">
                 {item.authorName}
               </span>
-              <img
+              <Image
                 src={item.authorImg}
                 alt={item.authorName}
+                width={28}
+                height={28}
                 className="size-4 lg:size-7 rounded-full  border border-white/20"
               />
             </div>

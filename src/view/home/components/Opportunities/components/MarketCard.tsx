@@ -1,7 +1,7 @@
 import { formatSubZero } from "@/core/utils/formatSubZero";
 import { motion } from "framer-motion";
+import Image, { StaticImageData } from "next/image";
 import { CgArrowRightO } from "react-icons/cg";
-import { SiBitcoinsv } from "react-icons/si";
 
 interface MarketItem {
   id: string;
@@ -9,8 +9,44 @@ interface MarketItem {
   symbol: string;
   price: number;
   change: number;
-  iconUrl: string;
+  iconUrl: string | StaticImageData;
 }
+
+const OptimizedImage = ({
+  src,
+  alt,
+  width = 36,
+  height = 36,
+  className,
+}: {
+  src: string | StaticImageData;
+  alt: string;
+  width?: number;
+  height?: number;
+  className?: string;
+}) => {
+  if (typeof src === "object" && "src" in src) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={src as string}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+    />
+  );
+};
 
 type Props = {
   item: MarketItem;
@@ -26,7 +62,13 @@ export default function MarketCard({ item }: Props) {
       }}
       className="px-5 py-2 rounded-sm flex items-center gap-4 hover:bg-[#0B0C14] hover:duration-300 relative group overflow-visible"
     >
-      <img src={item.iconUrl?.src} alt={item.symbol} className="size-9" />
+      <OptimizedImage
+        src={item.iconUrl}
+        alt={item.symbol}
+        width={36}
+        height={36}
+        className="size-9"
+      />
       <div className="flex-1">
         <div className="text-sm">{item.symbol}</div>
       </div>

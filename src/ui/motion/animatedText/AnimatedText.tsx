@@ -42,7 +42,6 @@ export const AnimatedText = ({
     );
   }
 
-  // block mode
   return (
     <motion.div
       ref={ref}
