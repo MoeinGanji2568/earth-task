@@ -89,9 +89,13 @@ export const LiveTradeSection = () => {
           <span className="rounded-full size-7 lg:size-12 flex items-center justify-center bg-gradient-to-r from-black/20 to-white/20">
             <span className="rounded-full size-4 lg:size-6 bg-white"></span>
           </span>
-          <span className="text-3xl lg:text-6xl">
+          <motion.span
+            initial={{ scale: 0.7 }}
+            whileInView={{ scale: 1 }}
+            className="text-3xl lg:text-6xl"
+          >
             <CountUp end={3267634} duration={3.5} />
-          </span>
+          </motion.span>
         </div>
         <div className="flex items-center gap-4 font-bold text-lg">
           {tradesStatisticsCard.map((item, index) => (
