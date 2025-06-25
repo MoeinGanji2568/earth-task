@@ -2,6 +2,7 @@ import { generateMockMarketItems } from "@/core/lib/marketData";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useMemo, useState } from "react";
 import { MarketItem } from "../../Opportunities/components/MarketList.types";
+import { TradeDynamicCard } from "./TradeDynamicCard";
 
 const opacityMap = [
   { initial: 0.7, exit: 0.4 },
@@ -61,7 +62,7 @@ const TradeDynamicList = ({
               }}
               key={item.id}
             >
-              <TradeCard item={item} onItemClick={onItemClick} />
+              <TradeDynamicCard item={item} onItemClick={onItemClick} />
             </motion.div>
           ))}
       </AnimatePresence>
@@ -70,41 +71,3 @@ const TradeDynamicList = ({
 };
 
 export default TradeDynamicList;
-
-const TradeCard = ({
-  item,
-
-  onItemClick,
-}: {
-  item: MarketItem;
-
-  onItemClick?: (item: MarketItem) => void;
-}) => {
-  return (
-    <div
-      className="flex gap-2 items-center cursor-pointer py-1.5 transition-all duration-300 bg-white text-foreground rounded-full px-3"
-      onClick={() => onItemClick?.(item)}
-    >
-      <img
-        src={item.iconUrl?.src}
-        alt={item.name}
-        className="size-5 lg:size-10"
-      />
-      <div className="text-black text-xl">
-        <span>{item.symbol}</span>
-      </div>
-    </div>
-    /* <div
-  className={`flex gap-2 items-center px-2 ${
-    item.isAscending ? "text-[#0FB395]" : "text-[#E63766]"
-  }`}
->
-  <span>{item.isAscending ? "LONG TRADE" : "SHORT TRADE"}</span>
-  {item.isAscending ? (
-    <FaArrowTrendUp size={15} />
-  ) : (
-    <FaArrowTrendDown size={15} />
-  )}
-</div> */
-  );
-};
