@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-@import "slick-carousel/slick/slick.css";
-@import "slick-carousel/slick/slick-theme.css";
+/* @theme inline {
+  --font-roboto: var(--font-roboto);
+} */
 
 :root {
   --background: #ffffff;
@@ -17,7 +18,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #000000;
     --foreground: #ededed;
   }
 }
@@ -56,4 +57,12 @@ body {
 
 .marquee-reverse {
   animation-direction: reverse;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
