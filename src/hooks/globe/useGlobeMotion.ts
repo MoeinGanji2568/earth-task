@@ -25,10 +25,13 @@ export function useGlobeMotion(
           const { trusted, section } = sectionData;
           const progress = scrollY - (trusted?.top ?? 0);
           const totalDistance = (section?.bottom ?? 1) - (trusted?.top ?? 0);
+
+          // Prevent division by zero and ensure valid values
           const proportion =
             totalDistance > 0 ? (progress / totalDistance) * 600 : 0;
+
           rawTop.set(scrollY);
-          rawLeftPct.set(proportion);
+          rawLeftPct.set(Math.max(0, proportion));
           ticking = false;
         });
         ticking = true;
@@ -43,24 +46,35 @@ export function useGlobeMotion(
     if (isMobile) return `${config.initialLeftPct}%`;
     if (s <= config.startMoveScroll) return `${config.initialLeftPct}%`;
     if (s >= config.endScroll) return `${config.finalLeftPct}%`;
+
+    // Prevent division by zero
+    if (config.endScroll === config.startMoveScroll)
+      return `${config.finalLeftPct}%`;
+
     const prog =
       (s - config.startMoveScroll) /
       (config.endScroll - config.startMoveScroll);
-    return `${
+
+    const result =
       config.initialLeftPct +
-      prog * (config.finalLeftPct - config.initialLeftPct)
-    }%`;
+      prog * (config.finalLeftPct - config.initialLeftPct);
+    return `${Math.max(0, Math.min(100, result))}%`;
   });
 
   const top = useTransform(rawTop, (s: number) => {
     if (s <= config.startMoveScroll) return config.initialTopPx;
     if (s >= config.endScroll) return config.finalTopPx;
+
+    // Prevent division by zero
+    if (config.endScroll === config.startMoveScroll) return config.finalTopPx;
+
     const prog =
       (s - config.startMoveScroll) /
       (config.endScroll - config.startMoveScroll);
-    return (
-      config.initialTopPx + prog * (config.finalTopPx - config.initialTopPx)
-    );
+
+    const result =
+      config.initialTopPx + prog * (config.finalTopPx - config.initialTopPx);
+    return Math.max(0, result);
   });
 
   const scale = useTransform(rawTop, (s: number) => {
@@ -69,12 +83,16 @@ export function useGlobeMotion(
     const scaleAfterScroll = 200;
     const oppTop = opportunities?.top ?? 0;
     const trustedTop = trusted?.top ?? 0;
+
     if (s > sectionTop) {
       return 1 + Math.min((s - sectionTop) / scaleAfterScroll, 1) * 0.07;
     }
     if (s < oppTop) return 0.8;
     if (s <= trustedTop) {
-      return 0.8 + ((s - oppTop) / (trustedTop - oppTop)) * 0.2;
+      // Prevent division by zero
+      if (trustedTop === oppTop) return 1;
+      const result = 0.8 + ((s - oppTop) / (trustedTop - oppTop)) * 0.2;
+      return Math.max(0.8, Math.min(1, result));
     }
     return 1;
   });
@@ -83,9 +101,15 @@ export function useGlobeMotion(
     const { trusted, opportunities } = sectionData;
     const start = opportunities?.top ?? 0;
     const end = trusted?.top ?? 0;
+
+    // Prevent division by zero and ensure valid values
     if (s < start) return 0;
     if (s > end) return 1;
-    return (s - start) / (end - start);
+    if (end === start) return 1; // If start and end are the same, return 1
+
+    const result = (s - start) / (end - start);
+    // Ensure the result is a valid number between 0 and 1
+    return Math.max(0, Math.min(1, result));
   });
 
   // TradeDynamicList animation - appears at 90% of scroll progress
